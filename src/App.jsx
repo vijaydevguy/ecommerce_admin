@@ -1,16 +1,19 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <p>alksjdf;lk</p>
-    </>
-  )
+    <div className="bg-gray-50 min-h-screen">
+      <>
+        <Navbar />
+        <hr />
+        <div className="flex w-full">
+
+        <Sidebar />
+        </div>
+      </>
+    </div>
+  );
 }
 
-export default App
+export default App;

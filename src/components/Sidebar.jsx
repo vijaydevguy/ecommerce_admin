@@ -1,13 +1,14 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { assets } from "../assets/assets";
-import { IoIosList } from "react-icons/io";
+import { IoIosAddCircleOutline, IoIosList } from "react-icons/io";
+import { BsBoxSeam } from "react-icons/bs";
 
 const NAVIGATIONS = [
   {
     label: "Add Items",
     link: "/add",
-    img: assets.add_icon,
+    img: <IoIosAddCircleOutline size={22}/>,
   },
   {
     label: "List Items",
@@ -17,11 +18,16 @@ const NAVIGATIONS = [
   {
     label: "Orders",
     link: "/order",
-    img: assets.order_icon,
+    img: <BsBoxSeam size={22} />,
   },
 ];
 
 const Sidebar = () => {
+  const location = useLocation();
+  // console.log("locaiton", location);
+  // const isActive = location.pathname == NAVIGATIONS[0].link;
+  // console.log("active",isActive)
+
   return (
     <div className="w-[18%] min-h-screen border-r-2 border-[0.5px] border-gray-300">
       <div className="flex flex-col gap-4 pt-6 pl-[20%] text-[16px]">
@@ -30,9 +36,8 @@ const Sidebar = () => {
             key={i}
             to={n.link}
             className={`flex items-center gap-3 border border-gray-300 border-r-0 px-3 py-2 rounded-lg 
+              ${location.pathname == n.link ? "bg-[#1e1e1e] text-white" : ""}
               `}
-            // ${router.pathname == "n.label"?"bg-[#1e1e1e] text-white":""}
-
             aria-label="button"
           >
             {typeof n.img === "string" ? (

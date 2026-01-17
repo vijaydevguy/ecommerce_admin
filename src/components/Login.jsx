@@ -8,8 +8,6 @@ const Login = ({ setToken }) => {
   const [password, setPassword] = useState("");
   console.log(email, password);
 
- 
-
   const onSubmitHandler = async (e) => {
     try {
       e.preventDefault();
@@ -53,7 +51,7 @@ const Login = ({ setToken }) => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="example@gmail.com"
               required
-              className="rounded-md w-full px-3 py-2 border border-gray-300 outline-gray-400 focus:bg-gray-50"
+              className="inputField"
             />
           </div>
 
@@ -70,7 +68,8 @@ const Login = ({ setToken }) => {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter password"
               required
-              className="rounded-md w-full px-3 py-2 border border-gray-300 outline-gray-400 focus:bg-gray-50"
+              className="inputField"
+              // className="rounded-md w-full px-3 py-2 border border-gray-300 outline-gray-400 focus:bg-gray-50"
             />
           </div>
 

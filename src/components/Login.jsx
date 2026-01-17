@@ -1,13 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { backendUrl } from "../App";
+import { toast } from "react-toastify";
 
-const Login = () => {
+const Login = ({ setToken }) => {
   const [email, setEmail] = useState("");
-  const [pass, setPass] = useState("");
-  console.log(email, pass);
+  const [password, setPassword] = useState("");
+  console.log(email, password);
+
+ 
+
   const onSubmitHandler = async (e) => {
     try {
       e.preventDefault();
-    } catch (error) {}
+
+      const res = await axios.post(backendUrl + "/api/user/admin", {
+        email,
+        password,
+      });
+
+      // console.log(res.data.token);
+
+      if (res.data.success) {
+        setToken(res.data.token);
+      } else {
+        toast.error(res.data?.message || "Login failed");
+      }
+    } catch (error) {
+      // console.log(error);
+      toast.error(error.message || "Login failed");
+    }
   };
 
   return (
@@ -31,7 +53,7 @@ const Login = () => {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="example@gmail.com"
               required
-              className="rounded-md w-full px-3 py-2 border border-gray-300 outline-gray-400 focus:bg-gray-100"
+              className="rounded-md w-full px-3 py-2 border border-gray-300 outline-gray-400 focus:bg-gray-50"
             />
           </div>
 
@@ -45,10 +67,10 @@ const Login = () => {
             <input
               type="password"
               id="password"
-              onChange={(e) => setPass(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter password"
               required
-              className="rounded-md w-full px-3 py-2 border border-gray-300 outline-gray-400 focus:bg-gray-100"
+              className="rounded-md w-full px-3 py-2 border border-gray-300 outline-gray-400 focus:bg-gray-50"
             />
           </div>
 

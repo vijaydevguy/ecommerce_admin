@@ -25,32 +25,34 @@ const Add = ({ token }) => {
 
   const [loading, setLoading] = useState(false);
 
+  console.log(
+    "img1",
+    img1,
+    "img2",
+    img2,
+    "img3",
+    img3,
+    "img4",
+    img4,
+    "name",
+    name,
+    "desc",
+    desc,
+    "price",
+    price,
+    "category",
+    category,
+    "subcategory",
+    subCategory,
+    "sizes",
+    sizes,
+    "bestseller",
+    bestseller,
+  );
+
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(
-      "img1",
-      img1,
-      "img1",
-      img1,
-      "img1",
-      img1,
-      "img1",
-      img1,
-      "name",
-      name,
-      "desc",
-      desc,
-      "price",
-      price,
-      "category",
-      category,
-      "subcategory",
-      subCategory,
-      "sizes",
-      sizes,
-      "bestseller",
-      bestseller
-    );
+
     setLoading(true);
     try {
       const formData = new FormData();
@@ -61,81 +63,42 @@ const Add = ({ token }) => {
       formData.append("subCategory", subCategory);
       formData.append("bestSeller", bestseller);
       formData.append("sizes", JSON.stringify(sizes));
-
-      // Add api_key using backendUrl as the api_key value
-      if (backendUrl) {
-        formData.append("api_key", backendUrl);
-      }
-
       // images
       img1 && formData.append("image1", img1);
       img2 && formData.append("image2", img2);
       img3 && formData.append("image3", img3);
       img4 && formData.append("image4", img4);
 
-      // Build URL - add api_key as query parameter using backendUrl
-      let url = backendUrl + "/api/product/add";
-      if (backendUrl) {
-        url =
-          backendUrl +
-          `/api/product/add?api_key=${encodeURIComponent(backendUrl)}`;
-      }
-
+      const url = backendUrl + "/api/product/add";
       console.log("url", url);
-      console.log("backendUrl", backendUrl);
-      console.log("token", token ? "exists" : "missing");
-      console.log("formData entries:", Object.fromEntries(formData.entries()));
+      console.log("token", token);
 
       const res = await axios.post(url, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-        timeout: 10000, // 10 second timeout
+        headers: { Authorization: `Bearer ${token}` },
       });
-      console.log("Response received:", res.data);
+      
+      console.log(res.data);
 
       if (res.data.success) {
-        toast.success("Product added");
-        // Reset form after successful submission
+        toast.success("Product added", res.data.success);
         setName("");
-        setDesc("");
+        setDescription("");
         setPrice("");
-        setCategory("Men");
-        setSubCategory("Topwear");
+        setCategory("");
+        setSubCategory("");
+        setBestSeller("");
         setSizes([]);
-        setBestSeller(false);
+        // images
         setImg1(false);
         setImg2(false);
         setImg3(false);
         setImg4(false);
       } else {
-        toast.error(res.data.message || "Failed to add product");
+        toast.error(res.data.message);
       }
     } catch (error) {
-      console.error("Error details:", error);
-      console.error("Error message:", error.message);
-      console.error("Error response:", error.response);
-      console.error("Error request:", error.request);
-
-      if (error.response) {
-        // Server responded with error status
-        const errorMessage =
-          error.response?.data?.message ||
-          error.response?.data?.error ||
-          error.response?.data ||
-          `Error: ${error.response.status}`;
-        console.error("Server error response:", error.response.data);
-        toast.error(errorMessage);
-      } else if (error.request) {
-        // Request made but no response received
-        toast.error(
-          "No response from server. Please check your connection and backend URL."
-        );
-      } else {
-        // Something else happened
-        toast.error(error.message || "Something went wrong");
-      }
+      console.log("error", error);
+      toast.error(error.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -303,7 +266,7 @@ const Add = ({ token }) => {
                 setSizes((prev) =>
                   prev.includes(s)
                     ? prev.filter((item) => item != s)
-                    : [...prev, s]
+                    : [...prev, s],
                 );
               }}
             >

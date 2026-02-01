@@ -17,7 +17,7 @@ const NAVIGATIONS = [
   },
   {
     label: "Orders",
-    link: "/order",
+    link: "/orders",
     img: <BsBoxSeam size={22} />,
   },
 ];

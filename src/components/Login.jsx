@@ -17,7 +17,7 @@ const Login = ({ setToken }) => {
         password,
       });
 
-      // console.log(res.data.token);
+      console.log("admin login res", res.data.token, res);
 
       if (res.data.success) {
         setToken(res.data.token);
@@ -48,6 +48,7 @@ const Login = ({ setToken }) => {
             <input
               type="email"
               id="email"
+              autoComplete="email"
               onChange={(e) => setEmail(e.target.value)}
               placeholder="example@gmail.com"
               required
@@ -65,6 +66,7 @@ const Login = ({ setToken }) => {
             <input
               type="password"
               id="password"
+              autoComplete="password"
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter password"
               required

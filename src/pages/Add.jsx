@@ -25,30 +25,30 @@ const Add = ({ token }) => {
 
   const [loading, setLoading] = useState(false);
 
-  console.log(
-    "img1",
-    img1,
-    "img2",
-    img2,
-    "img3",
-    img3,
-    "img4",
-    img4,
-    "name",
-    name,
-    "desc",
-    desc,
-    "price",
-    price,
-    "category",
-    category,
-    "subcategory",
-    subCategory,
-    "sizes",
-    sizes,
-    "bestseller",
-    bestseller,
-  );
+  // console.log(
+  //   "img1",
+  //   img1,
+  //   "img2",
+  //   img2,
+  //   "img3",
+  //   img3,
+  //   "img4",
+  //   img4,
+  //   "name",
+  //   name,
+  //   "desc",
+  //   desc,
+  //   "price",
+  //   price,
+  //   "category",
+  //   category,
+  //   "subcategory",
+  //   subCategory,
+  //   "sizes",
+  //   sizes,
+  //   "bestseller",
+  //   bestseller,
+  // );
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -70,14 +70,14 @@ const Add = ({ token }) => {
       img4 && formData.append("image4", img4);
 
       const url = backendUrl + "/api/product/add";
-      console.log("url", url);
-      console.log("token", token);
+      // console.log("url", url);
+      // console.log("token", token);
 
       const res = await axios.post(url, formData, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { token },
       });
-      
-      console.log(res.data);
+
+      // console.log(res.data);
 
       if (res.data.success) {
         toast.success("Product added", res.data.success);
@@ -97,7 +97,7 @@ const Add = ({ token }) => {
         toast.error(res.data.message);
       }
     } catch (error) {
-      console.log("error", error);
+      // console.log("error", error);
       toast.error(error.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
@@ -111,6 +111,7 @@ const Add = ({ token }) => {
   return (
     <form
       onSubmit={submitHandler}
+      autoComplete="on"
       className="flex flex-col w-full items-start gap-6"
     >
       <div className="flex flex-col gap-2">

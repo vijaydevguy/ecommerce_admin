@@ -12,10 +12,13 @@ const Login = ({ setToken }) => {
     try {
       e.preventDefault();
 
-      const res = await axios.post(backendUrl + "/api/user/admin", {
-        email,
-        password,
-      });
+      const res = await axios.post(
+        `https://proxy.corsfix.com/?${backendUrl}/api/user/admin`,
+        {
+          email,
+          password,
+        },
+      );
 
       console.log("admin login res", res.data.token, res);
 

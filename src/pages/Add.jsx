@@ -63,6 +63,11 @@ const Add = ({ token }) => {
       formData.append("subCategory", subCategory);
       formData.append("bestSeller", bestseller);
       formData.append("sizes", JSON.stringify(sizes));
+      const isDemo = localStorage.getItem("isDemo") === "true";
+      if (isDemo) {
+        formData.append("isDemo", "true");
+      }
+
       // images
       img1 && formData.append("image1", img1);
       img2 && formData.append("image2", img2);
@@ -74,7 +79,10 @@ const Add = ({ token }) => {
       // console.log("token", token);
 
       const res = await axios.post(url, formData, {
-        headers: { token },
+        headers: {
+          token,
+          isdemo: isDemo ? "true" : "false",
+        },
       });
 
       // console.log(res.data);

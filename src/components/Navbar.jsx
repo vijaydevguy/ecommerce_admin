@@ -11,7 +11,10 @@ const Navbar = ({ setToken }) => {
       />
       <button
         className="bg-gray-500 hover:bg-gray-600 text-white px-5 py-2 sm:px-7  rounded-full text-xs sm:text-sm cursor-pointer"
-        onClick={() => setToken("")}
+        onClick={() => {
+          localStorage.removeItem("isDemo");
+          setToken("");
+        }}
       >
         Logout
       </button>

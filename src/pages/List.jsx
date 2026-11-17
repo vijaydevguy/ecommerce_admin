@@ -101,7 +101,14 @@ const List = ({ token }) => {
     fetchList();
   }, [currentPage, limit, debouncedSearch, category, sort]);
 
+  const isDemo = localStorage.getItem("isDemo") === "true";
+
   const removeProduct = async (id) => {
+    if (isDemo) {
+      toast.info("Product deletion is disabled in Demo Mode");
+      return;
+    }
+
     try {
       const res = await axios.delete(
         backendUrl + "/api/product/remove",
@@ -110,6 +117,7 @@ const List = ({ token }) => {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
+            isdemo: isDemo ? "true" : "false",
           },
         },
       );
@@ -128,11 +136,16 @@ const List = ({ token }) => {
     <div className="flex flex-col gap-4">
       {/* Top Header & Counter */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <h2 className="text-lg font-semibold text-gray-800">All Products</h2>
           {totalProducts > 0 && (
             <span className="text-xs bg-gray-200 text-gray-700 px-2.5 py-0.5 rounded-full font-medium">
               {totalProducts} {totalProducts === 1 ? "item" : "items"}
+            </span>
+          )}
+          {isDemo && (
+            <span className="text-xs bg-amber-100 text-amber-800 border border-amber-300 px-2.5 py-0.5 rounded-full font-medium">
+              Demo Mode (Delete Disabled)
             </span>
           )}
         </div>
@@ -273,13 +286,29 @@ const List = ({ token }) => {
                 </p>
 
                 <div className="flex items-center justify-center">
-                  <MdDeleteOutline
-                    className="text-red-600 hover:text-red-800 cursor-pointer p-1 rounded hover:bg-red-50 transition"
-                    size={28}
-                    role="button"
-                    title="Delete product"
-                    onClick={() => removeProduct(item._id)}
-                  />
+                  <button
+                    type="button"
+                    disabled={isDemo}
+                    onClick={() => {
+                      if (isDemo) {
+                        toast.info("Product deletion is disabled in Demo Mode");
+                        return;
+                      }
+                      removeProduct(item._id);
+                    }}
+                    title={
+                      isDemo
+                        ? "Product deletion is disabled in Demo Mode"
+                        : "Delete product"
+                    }
+                    className={`p-1 rounded transition ${
+                      isDemo
+                        ? "text-gray-300 cursor-not-allowed opacity-50 hover:bg-transparent"
+                        : "text-red-600 hover:text-red-800 hover:bg-red-50 cursor-pointer"
+                    }`}
+                  >
+                    <MdDeleteOutline size={26} />
+                  </button>
                 </div>
               </div>
             ))
